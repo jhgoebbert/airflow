@@ -35,7 +35,7 @@ First, to use the handler, ``airflow.cfg`` must be configured as follows:
     remote_logging = True
 
     [elasticsearch]
-    host = <host>:<port>
+    host = <scheme>://<host>:<port>
 
 To output task logs to stdout in JSON format, the following config could be used:
 
@@ -45,7 +45,7 @@ To output task logs to stdout in JSON format, the following config could be used
     remote_logging = True
 
     [elasticsearch]
-    host = <host>:<port>
+    host = <scheme>://<host>:<port>
     write_stdout = True
     json_format = True
 
@@ -58,7 +58,7 @@ To output task logs to ElasticSearch, the following config could be used: (set `
     delete_local_logs = False
 
     [elasticsearch]
-    host = <host>:<port>
+    host = <scheme>://<host>:<port>
     write_stdout = False
     json_format = True
     write_to_es = True
