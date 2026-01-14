@@ -39,6 +39,7 @@ import elasticsearch
 import pendulum
 from elasticsearch import helpers
 from elasticsearch.exceptions import NotFoundError
+from sqlalchemy import select
 
 import airflow.logging_config as alc
 from airflow.configuration import conf
@@ -116,6 +117,15 @@ def _render_log_id(log_id_template: str, ti: TaskInstance | TaskInstanceKey, try
         run_id=getattr(ti, "run_id", ""),
         try_number=try_number,
         map_index=getattr(ti, "map_index", ""),
+    if not isinstance(ti, TaskInstanceKey):
+        return ti
+    val = session.scalar(
+        select(TaskInstance).where(
+            TaskInstance.task_id == ti.task_id,
+            TaskInstance.dag_id == ti.dag_id,
+            TaskInstance.run_id == ti.run_id,
+            TaskInstance.map_index == ti.map_index,
+        )
     )
 
 
